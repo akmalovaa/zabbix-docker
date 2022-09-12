@@ -1,8 +1,7 @@
-# Docker-compose Zabbix Grafana PostgreSQL NGINX 
-## Docker
+# Docker Zabbix Grafana PostgreSQL NGINX 
  [Homelab]( https://akmalov.com/blog/zabbix-grafana-docker/)
 
-## Components:
+## Components docker-compose:
 
 - Postgresql 14.5
 - Zabbix Server 6.2
