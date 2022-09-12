@@ -1,4 +1,4 @@
-# Zabbix Grafana docker-compose
+# Docker-compose Zabbix Grafana PostgreSQL NGINX Docker
 
  [Homelab]( https://akmalov.com/blog/zabbix-grafana-docker/)
 
