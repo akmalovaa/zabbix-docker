@@ -83,7 +83,7 @@ services:
     image: grafana/grafana:9.1.4-ubuntu
     user: "472"
     volumes:
-      - ./grafana-data:/var/lib/grafana
+      - ./grafana:/var/lib/grafana
     restart: always
     ports:
       - "3000:3000"
