@@ -17,7 +17,7 @@ git clone https://github.com/akmalovaa/zabbix-docker.git
 cd zabbix-docker
 ```
 
-2) Create directory and change owner:
+2) Change owner grafana directory:
 
 ```
 chown -R 472:472 grafana
