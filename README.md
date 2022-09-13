@@ -20,7 +20,6 @@ cd zabbix-docker
 2) Create directory and change owner:
 
 ```
-mkdir grafana
 chown -R 472:472 grafana
 ```
 
