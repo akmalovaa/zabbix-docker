@@ -33,7 +33,6 @@ services:
       ZBX_SERVER_PORT: 10051
     depends_on:
       - zabbix-server
-      - postgres
     networks:
       - network-zabbix
 
@@ -85,7 +84,7 @@ services:
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
       - ./grafana/provisioning:/etc/grafana/provisioning
     depends_on:
-      - zabbix-server
+      - zabbix-frontend
     networks:
       - network-zabbix
 
