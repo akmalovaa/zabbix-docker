@@ -1,4 +1,4 @@
-# Docker compose services: Zabbix NGINX PostgreSQL + Grafana
+# docker compose - Zabbix NGINX PostgreSQL + Grafana
 
 - [Official Zabbix Dockerfiles](https://github.com/zabbix/zabbix-docker)
 - [Zabbix plugin for Grafana dashboard](https://github.com/grafana/grafana-zabbix)
@@ -39,6 +39,15 @@ Zabbix default user password
 Grafana default user password (change `grafana/grafana.ini` auth.anonymous enabled)
 - login: admin
 - password: 12345
+
+
+Settings `Zabbix server` Host -> use DNS name for zabbix-agent
+![zabbix-agent](./.images/zabbix-agent-settings.png)
+
+Test data source
+
+`Grafana -> Connections -> Data sources -> zabbix -> Test`
+![zabbix-agent](./.images/data-source-test.png)
 
 ### Debug
 ```
