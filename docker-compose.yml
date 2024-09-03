@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   zabbix-server:
-    image: ${ZABBIX_SERVER_IMAGE:-zabbix/zabbix-server-pgsql:ubuntu-6.4-latest}
+    image: ${ZABBIX_SERVER_IMAGE:-zabbix/zabbix-server-pgsql:ubuntu-7.0-latest}
     restart: unless-stopped
     ports:
       - "10051:10051"
@@ -18,7 +18,7 @@ services:
       - network-zabbix
 
   zabbix-frontend:
-    image: ${ZABBIX_FRONTEND_IMAGE:-zabbix/zabbix-web-nginx-pgsql:6.4-ubuntu-latest}
+    image: ${ZABBIX_FRONTEND_IMAGE:-zabbix/zabbix-web-nginx-pgsql:ubuntu-7.0-latest}
     restart: unless-stopped
     ports:
       - "8080:8080"
@@ -37,7 +37,7 @@ services:
       - network-zabbix
 
   zabbix-agent:
-    image:  ${ZABBIX_AGENT_IMAGE:-zabbix/zabbix-agent:6.4-ubuntu-latest}
+    image:  ${ZABBIX_AGENT_IMAGE:-zabbix/zabbix-agent:ubuntu-7.0-latest}
     restart: unless-stopped
     ports:
       - "10050:10050"
