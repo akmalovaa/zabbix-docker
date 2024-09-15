@@ -4,7 +4,7 @@ datasources:
   - name: zabbix
     type: alexanderzobnin-zabbix-datasource
     access: proxy
-    url: http://zabbix-frontend:8080/api_jsonrpc.php
+    url: http://frontend:8080/api_jsonrpc.php
     isDefault: true
     jsonData:
       username: Admin
