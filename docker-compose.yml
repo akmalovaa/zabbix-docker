@@ -1,8 +1,7 @@
-version: '3.7'
-
 services:
   zabbix-server:
     image: ${ZABBIX_SERVER_IMAGE:-zabbix/zabbix-server-pgsql:ubuntu-7.0-latest}
+    container_name: server
     restart: unless-stopped
     ports:
       - "10051:10051"
@@ -20,6 +19,7 @@ services:
   zabbix-frontend:
     image: ${ZABBIX_FRONTEND_IMAGE:-zabbix/zabbix-web-nginx-pgsql:ubuntu-7.0-latest}
     restart: unless-stopped
+    container_name: frontend
     ports:
       - "8080:8080"
       - "8443:8443"
@@ -38,6 +38,7 @@ services:
 
   zabbix-agent:
     image:  ${ZABBIX_AGENT_IMAGE:-zabbix/zabbix-agent:ubuntu-7.0-latest}
+    container_name: agent
     restart: unless-stopped
     ports:
       - "10050:10050"
@@ -55,6 +56,7 @@ services:
 
   postgres:
     image: ${POSTGRES_IMAGE:-postgres:latest}
+    container_name: postgres
     restart: unless-stopped
     ports:
       - "5432:5432"
@@ -70,6 +72,7 @@ services:
 
   grafana:
     image: ${GRAFANA_IMAGE:-grafana/grafana}
+    container_name: grafana
     restart: unless-stopped
     ports:
       - "3000:3000"
@@ -89,8 +92,8 @@ services:
       - network-zabbix
 
 volumes:
-    postgres: {}
-    grafana: {}
+  postgres: {}
+  grafana: {}
 
 networks:
   network-zabbix:
