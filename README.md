@@ -9,11 +9,11 @@ For those who are used to using zabbix to collect metrics, but want to start dra
 
 Example simple docker-compose service
 
-- **Postgresql:**                16.2
-- **Zabbix Server:**             7.0.3
-- **Zabbix Frontend NGINX:**     7.0.3
-- **Zabbix Agent:**              7.0.3
-- **Grafana:**                   11.2.0
+- **Postgresql:**                16-alpine
+- **Zabbix Server:**             7.2.1
+- **Zabbix Frontend NGINX:**     7.2.1
+- **Zabbix Agent:**              7.2.1
+- **Grafana:**                   11.4.0
 
 ## Guide
 
