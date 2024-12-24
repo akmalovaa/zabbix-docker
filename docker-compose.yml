@@ -1,6 +1,6 @@
 services:
   zabbix-server:
-    image: ${ZABBIX_SERVER_IMAGE:-zabbix/zabbix-server-pgsql:ubuntu-7.0-latest}
+    image: ${ZABBIX_SERVER_IMAGE:-zabbix/zabbix-server-pgsql:ubuntu-7.2.1}
     container_name: server
     restart: unless-stopped
     ports:
@@ -17,7 +17,7 @@ services:
       - network-zabbix
 
   zabbix-frontend:
-    image: ${ZABBIX_FRONTEND_IMAGE:-zabbix/zabbix-web-nginx-pgsql:ubuntu-7.0-latest}
+    image: ${ZABBIX_FRONTEND_IMAGE:-zabbix/zabbix-web-nginx-pgsql:ubuntu-7.2.1}
     restart: unless-stopped
     container_name: frontend
     ports:
@@ -37,8 +37,8 @@ services:
       - network-zabbix
 
   zabbix-agent:
-    image:  ${ZABBIX_AGENT_IMAGE:-zabbix/zabbix-agent:ubuntu-7.0-latest}
-    container_name: agent
+    image:  ${ZABBIX_AGENT_IMAGE:-zabbix/zabbix-agent:ubuntu-7.2.1}
+    container_name: zabbix-agent
     restart: unless-stopped
     ports:
       - "10050:10050"
@@ -56,12 +56,14 @@ services:
 
   postgres:
     image: ${POSTGRES_IMAGE:-postgres:latest}
+    # command: -c ssl=on -c ssl_cert_file=/run/secrets/server-cert.pem -c ssl_key_file=/run/secrets/server-key.pem -c ssl_ca_file=/run/secrets/root-ca.pem
     container_name: postgres
     restart: unless-stopped
     ports:
       - "5432:5432"
     volumes:
       - postgres:/var/lib/postgresql/data
+      # - pgsql_socket:/var/run/postgresql/
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
