@@ -1,5 +1,5 @@
 # Zabbix NGINX PostgreSQL + Grafana
-## Simple Container (docker compose )
+## Example container (docker compose)
 
 - [Official Zabbix Dockerfiles](https://github.com/zabbix/zabbix-docker)
 - [Zabbix plugin for Grafana dashboard](https://github.com/grafana/grafana-zabbix)
@@ -12,9 +12,9 @@ For those who are used to using zabbix to collect metrics, but want to start dra
 Example simple docker-compose service
 
 Current versions:
-- **Zabbix Server:**             7.2.4
-- **PostgreSQL:**                16-alpine
-- **Grafana:**                   11.6.0
+- **Zabbix Server:** 7.2.4
+- **PostgreSQL:** 16-alpine
+- **Grafana:** 11.6.0
 
 ## Guide
 
@@ -28,7 +28,7 @@ cd zabbix-docker
 
 ### Run docker-compose:
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 The first launch takes 1-2 minutes
@@ -56,5 +56,5 @@ Test data source
 
 ### Debug
 ```
-docker-compose logs --tail=10 -f
+docker compose logs --tail=10 -f
 ```
