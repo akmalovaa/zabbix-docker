@@ -39,7 +39,7 @@ default user password
 - **password:** zabbix
 
 
-**Zabbix server** - Data Collection / Host / change use connect from DNS `zabbix-agent`
+**Zabbix server** - Data Collection / Host / change use connect to DNS `zabbix-agent`
 ![zabbix-agent](./.images/zabbix-agent-settings.png)
 ![zabbix-agent](./.images/zabbix-agent-check.png)
 
