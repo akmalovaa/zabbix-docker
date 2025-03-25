@@ -1,6 +1,6 @@
 services:
   zabbix-server:
-    image: ${ZABBIX_SERVER_IMAGE:-zabbix/zabbix-server-pgsql:ubuntu-7.2.1}
+    image: ${ZABBIX_SERVER_IMAGE:-zabbix/zabbix-server-pgsql:ubuntu-7.2-latest}
     container_name: server
     restart: unless-stopped
     ports:
@@ -8,16 +8,16 @@ services:
     environment:
       DB_SERVER_HOST: postgres
       DB_SERVER_PORT: 5432
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER-zabbix}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD-zabbix}
+      POSTGRES_DB: ${POSTGRES_DB-zabbix}
     depends_on:
       - postgres
     networks:
       - network-zabbix
 
   zabbix-frontend:
-    image: ${ZABBIX_FRONTEND_IMAGE:-zabbix/zabbix-web-nginx-pgsql:ubuntu-7.2.1}
+    image: ${ZABBIX_FRONTEND_IMAGE:-zabbix/zabbix-web-nginx-pgsql:ubuntu-7.2-latest}
     restart: unless-stopped
     container_name: frontend
     ports:
@@ -25,9 +25,9 @@ services:
       - "8443:8443"
     environment:
       DB_SERVER_HOST: postgres
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER-zabbix}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD-zabbix}
+      POSTGRES_DB: ${POSTGRES_DB-zabbix}
       PHP_TZ: ${TZ}
       ZBX_SERVER_HOST: zabbix-server
       ZBX_SERVER_PORT: 10051
@@ -37,7 +37,7 @@ services:
       - network-zabbix
 
   zabbix-agent:
-    image:  ${ZABBIX_AGENT_IMAGE:-zabbix/zabbix-agent:ubuntu-7.2.1}
+    image:  ${ZABBIX_AGENT_IMAGE:-zabbix/zabbix-agent:ubuntu-7.2-latest}
     container_name: zabbix-agent
     restart: unless-stopped
     ports:
@@ -65,9 +65,9 @@ services:
       - postgres:/var/lib/postgresql/data
       # - pgsql_socket:/var/run/postgresql/
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER-zabbix}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD-zabbix}
+      POSTGRES_DB: ${POSTGRES_DB-zabbix}
       PG_DATA: /var/lib/postgresql/data/pgdata
     networks:
       - network-zabbix

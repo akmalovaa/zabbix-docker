@@ -1,7 +1,9 @@
-# docker compose - Zabbix NGINX PostgreSQL + Grafana
+# Zabbix NGINX PostgreSQL + Grafana
+## Simple Container (docker compose )
 
 - [Official Zabbix Dockerfiles](https://github.com/zabbix/zabbix-docker)
 - [Zabbix plugin for Grafana dashboard](https://github.com/grafana/grafana-zabbix)
+
 
 ![scheme](./.images/scheme.excalidraw.png)
 
@@ -9,11 +11,10 @@ For those who are used to using zabbix to collect metrics, but want to start dra
 
 Example simple docker-compose service
 
-- **Postgresql:**                16-alpine
-- **Zabbix Server:**             7.2.1
-- **Zabbix Frontend NGINX:**     7.2.1
-- **Zabbix Agent:**              7.2.1
-- **Grafana:**                   11.4.0
+Current versions:
+- **Zabbix Server:**             7.2.4
+- **PostgreSQL:**                16-alpine
+- **Grafana:**                   11.6.0
 
 ## Guide
 
@@ -38,8 +39,9 @@ default user password
 - **password:** zabbix
 
 
-**Zabbix server** - Host / change use connect from DNS `zabbix-agent`
+**Zabbix server** - Data Collection / Host / change use connect from DNS `zabbix-agent`
 ![zabbix-agent](./.images/zabbix-agent-settings.png)
+![zabbix-agent](./.images/zabbix-agent-check.png)
 
 ### Grafana `localhost:3000` 
 
@@ -54,5 +56,5 @@ Test data source
 
 ### Debug
 ```
-docker-compose logs --tail=1 -f
+docker-compose logs --tail=10 -f
 ```
