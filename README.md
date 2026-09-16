@@ -14,8 +14,12 @@ Example simple docker-compose service
 Current versions:
 
 - **Zabbix Server:** 7.4
-- **PostgreSQL:** 17-alpine
-- **Grafana:** 12.1.0
+- **PostgreSQL:** 18-alpine
+- **Grafana:** 13.2
+
+Image tags live in `.env` and float within a major version. Run `docker compose pull` before
+`docker compose up -d` to actually pick up patch releases — a floating tag that is already cached
+locally is reused as-is. PostgreSQL 18 requires Zabbix 7.4.4 or newer.
 
 ## Quick Start
 
@@ -62,8 +66,10 @@ Key variables in `.env` file:
 | `POSTGRES_USER` | `zabbix` | PostgreSQL username |
 | `POSTGRES_PASSWORD` | `zabbix` | PostgreSQL password |
 | `POSTGRES_DB` | `zabbix` | Database name |
-| `GF_SECURITY_ADMIN_USER` | `admin` | Grafana admin username |
-| `GF_SECURITY_ADMIN_PASSWORD` | `12345` | Grafana admin password |
+| `GRAFANA_USER` | `admin` | Grafana admin username (becomes `GF_SECURITY_ADMIN_USER`) |
+| `GRAFANA_SECRET` | `12345` | Grafana admin password (becomes `GF_SECURITY_ADMIN_PASSWORD`) |
+| `ZABBIX_API_USER` | `Admin` | Zabbix account the Grafana datasource logs in with |
+| `ZABBIX_API_PASSWORD` | `zabbix` | Password for that account |
 | `TZ` | `Asia/Yekaterinburg` | Timezone for all services |
 
 > ⚠️ **Security Note**: Change default passwords in production!
@@ -76,7 +82,8 @@ Key variables in `.env` file:
 | Grafana | 3000 | 3000 | [YOUR_HOST:3000](http://localhost:3000) |
 | Zabbix Agent | 10050 | 10050 | (used internally) |
 | Zabbix Server | 10051 | 10051 | (used internally) |
-| PostgreSQL | 5432 | - | Default Internal only |
+| PostgreSQL | 5432 | 5432 | Published on the host - drop the mapping in `compose.yaml` to keep it internal |
+| zabbix-init | - | - | One-shot, exits after configuring the agent interface |
 
 ## Usage
 
@@ -89,9 +96,28 @@ Key variables in `.env` file:
 - **Username:** `Admin`
 - **Password:** `zabbix`
 
-#### Configure Zabbix Agent Connection
+#### Zabbix Agent Connection
 
-1. Navigate to **Configuration** → **Hosts**
+Nothing to do - the `zabbix-init` one-shot service handles this on `docker compose up -d`.
+
+The bundled **Zabbix server** host ships from the schema import with a hardcoded `127.0.0.1`
+agent interface, which inside Docker points at the server container's own loopback instead of
+the agent. Every agent item then fails with
+`Cannot establish TCP connection to [[127.0.0.1]:10050]`. On startup `zabbix-init` calls the
+Zabbix API and repoints that interface at the DNS name `zabbix-agent`. It is idempotent, so it
+is a no-op on every subsequent start.
+
+The Zabbix server caches host configuration, so metrics start arriving within a minute. To
+avoid the wait:
+
+```shell
+docker compose exec zabbix-server zabbix_server -R config_cache_reload
+```
+
+<details>
+<summary>Doing it by hand instead</summary>
+
+1. Navigate to **Data collection** → **Hosts**
 2. Click on **Zabbix server** host
 3. Go to **Interfaces** tab
 4. Change **Connect to** from IP to **DNS**
@@ -100,6 +126,8 @@ Key variables in `.env` file:
 
 ![Zabbix Agent Settings](./.images/zabbix-agent-settings.png)
 ![Zabbix Agent Check](./.images/zabbix-agent-check.png)
+
+</details>
 
 ### Grafana Dashboard
 

@@ -24,7 +24,7 @@
     {
       "datasource": {
         "type": "alexanderzobnin-zabbix-datasource",
-        "uid": "PCAF1C06DCF802728"
+        "uid": "zabbix"
       },
       "fieldConfig": {
         "defaults": {
@@ -352,7 +352,7 @@
           "countTriggersBy": "",
           "datasource": {
             "type": "alexanderzobnin-zabbix-datasource",
-            "uid": "${DS_ZABBIX}"
+            "uid": "zabbix"
           },
           "evaltype": "0",
           "functions": [],
@@ -419,7 +419,7 @@
     {
       "datasource": {
         "type": "alexanderzobnin-zabbix-datasource",
-        "uid": "PCAF1C06DCF802728"
+        "uid": "zabbix"
       },
       "fieldConfig": {
         "defaults": {
@@ -492,7 +492,7 @@
           "countTriggersBy": "",
           "datasource": {
             "type": "alexanderzobnin-zabbix-datasource",
-            "uid": "${DS_ZABBIX}"
+            "uid": "zabbix"
           },
           "evaltype": "0",
           "functions": [],

@@ -1,3 +1,4 @@
 postgres-data/
 zabbix/
 .mypy_cache/
+pgdump.sql

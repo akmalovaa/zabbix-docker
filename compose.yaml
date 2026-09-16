@@ -52,6 +52,25 @@ services:
     networks:
       - network-zabbix
 
+  # One-shot: repoints the bundled "Zabbix server" host from 127.0.0.1 to the
+  # agent container's DNS name, then exits. Safe to re-run; see the script.
+  zabbix-init:
+    image: ${INIT_IMAGE:-python:3.13-alpine}
+    restart: "no"
+    environment:
+      ZBX_API_URL: http://zabbix-frontend:8080/api_jsonrpc.php
+      ZABBIX_API_USER: ${ZABBIX_API_USER:-Admin}
+      ZABBIX_API_PASSWORD: ${ZABBIX_API_PASSWORD:-zabbix}
+      ZBX_INIT_DNS: zabbix-agent
+    volumes:
+      - ./scripts/init-zabbix-host.py:/init-zabbix-host.py:ro
+    command: ["python3", "/init-zabbix-host.py"]
+    depends_on:
+      zabbix-frontend:
+        condition: service_healthy
+    networks:
+      - network-zabbix
+
   postgres:
     image: ${POSTGRES_IMAGE:-postgres:latest}
     # command: -c ssl=on -c ssl_cert_file=/run/secrets/server-cert.pem -c ssl_key_file=/run/secrets/server-key.pem -c ssl_ca_file=/run/secrets/root-ca.pem
@@ -83,6 +102,9 @@ services:
       GF_SECURITY_ADMIN_USER: ${GRAFANA_USER:-admin}
       GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_SECRET:-12345}
       GF_INSTALL_PLUGINS: alexanderzobnin-zabbix-app
+      # Consumed by grafana/provisioning/datasources/datasource.yml
+      ZABBIX_API_USER: ${ZABBIX_API_USER:-Admin}
+      ZABBIX_API_PASSWORD: ${ZABBIX_API_PASSWORD:-zabbix}
       TZ: ${TZ}
     user: "472"
     volumes:
